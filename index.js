@@ -44,8 +44,28 @@ class Airplane {
 */
 
 class Person {
-  
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = []
+  }
+  eat(someFood){
+    if (this.stomach.length < 10){
+      return this.stomach.push(someFood)
+    }
+  }
+  poop(){
+    return this.stomach.splice(0,10)
+  }
+  toString(){
+    return `${this.name}, ${this.age}`
+  }
 }
+
+
+const Mary = new Person('Mary', 50)
+Mary.eat('sandwich')
+Mary.poop
 
 /*
   TASK 2
@@ -62,9 +82,26 @@ class Person {
 */
 
 class Car {
-  
+  constructor(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0
+    this.odometer = 0
+  }
+  fill(gallons){
+     return this.tank += gallons 
+  }
+  drive(distance){
+    const mpg = this.tank * this.milesPerGallon
+    if (mpg >= distance){
+        return [this.odometer += distance, this.tank -= (distance / this.milesPerGallon)]
+    } else this.odometer += mpg, this.tank = 0
+        return `I ran out of fuel at ${this.odometer} miles!`
 }
-
+}
+const Sedan = new Car ('Sedan', 25)
+Sedan.fill(1)
+Sedan.drive(26)
 /*
   TASK 3
     - Write a Lambdasian class.
@@ -79,9 +116,16 @@ class Car {
 */
 
 class Lambdasian {
-  
+  constructor ({name, age, location}){
+    this.name = name;
+    this.age = age;
+    this.location = location
+  }
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}`
+  }
 }
-
+const Human = new Lambdasian ('Girl', 8, 'City')
 /*
   TASK 4
     - Write an Instructor class extending Lambdasian.
@@ -97,10 +141,23 @@ class Lambdasian {
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
 
-class Instructor {
-
+class Instructor extends Lambdasian{
+  constructor({name, age, location, specialty, favLanguage, catchPhrase}){
+    super({name, age, location, specialty, favLanguage, catchPhrase})
+    this.name = name;
+    this.age = age;
+    this.location = location
+    this.specialty = specialty
+    this.favLanguage = favLanguage
+    this.catchPhrase = catchPhrase
+  }
+  demo(subject){
+      return `Today we are learning about ${subject}`
+  }
+  grade(student, subject){
+    return `${student.name}, receives a perfect score on ${subject}`
+  }
 }
-
 /*
   TASK 5
     - Write a Student class extending Lambdasian.
@@ -117,10 +174,27 @@ class Instructor {
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
 
-class Student {
-   
+class Student extends Lambdasian{
+  constructor ({name, age, location, previousBackground, className, favSubjects}){
+    super({name, age, location, previousBackground, className, favSubjects})
+    this.name = name
+    this.age = age
+    this.location = location
+    this.previousBackground = previousBackground
+    this.className = className
+    this.favSubjects = favSubjects
+  }
+  listSubjects(){
+    return `Loving ${this.favSubjects}`
+  }
+  PRAssignment(subject){
+    return `${this.name} has submitted a PR for ${subject}`
+  }
+  sprintChallenge(subject){
+    return `${this.name} has begun sprint challenge on ${subject}`
+  }
 }
-
+const Leon = new Student ('Leon', 25, 'Raccoon City', 'Police Officer', 'Training', ['Shooting', 'Rescuing'])
 /*
   TASK 6
     - Write a ProjectManager class extending Instructor.
@@ -135,9 +209,21 @@ class Student {
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
 
-class ProjectManager {
-   
+class ProjectManager extends Instructor{
+  constructor({name, age, location, specialty, favLanguage, catchPhrase, gradClassName, favInstructor}){
+    super({name, age, location, specialty, favLanguage, catchPhrase, gradClassName, favInstructor})
+    this.gradClassName = gradClassName
+    this.favInstructor = favInstructor
+  }
+  standUp(channel){
+    return `${this.name} announces to ${channel}, @channel standy times!`
+  }
+  debugsCode(student, subject){
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
+  } 
 }
+const Dan = new ProjectManager ('Dan')
+Dan.grade('Pete', 'redux')
 
 /*
   STRETCH PROBLEM (no tests!)
